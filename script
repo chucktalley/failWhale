@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# description: Put up and take down the splash page.
+
+FILE=/www/indicator
+
+start() {
+        echo -ne "Posting splash page... \n"
+        touch ${FILE}
+        return $?
+}
+
+stop() {
+        echo -ne "Taking down splash page... \n"
+        rm ${FILE}
+        return $?
+}
+
+status() {
+        if [ -f "$FILE" ]
+        then
+                echo "Maintenance page is up."
+        else
+                echo "Maintenance page is not up."
+        fi
+        return $?
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status}"
+        exit 1
+esac
+
+exit $?
